@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dashboard de salidas por insecticida</title>
+<style>
+  :root {
+    --bg1:#0f172a;
+    --bg2:#111827;
+    --card:#111827cc;
+    --line:rgba(255,255,255,.09);
+    --text:#e5eefb;
+    --muted:#94a3b8;
+    --accent:#22c55e;
+    --accent2:#38bdf8;
+    --accent3:#a78bfa;
+  }
+  * { box-sizing:border-box; }
+  body {
+    margin:0;
+    font-family: Inter, Segoe UI, Roboto, Arial, sans-serif;
+    background:
+      radial-gradient(circle at top left, rgba(56,189,248,.18), transparent 30%),
+      radial-gradient(circle at top right, rgba(34,197,94,.15), transparent 25%),
+      linear-gradient(135deg, var(--bg1), var(--bg2));
+    color:var(--text);
+  }
+  .wrap {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 28px;
+  }
+  .header {
+    display:flex;
+    justify-content:space-between;
+    gap:24px;
+    align-items:flex-end;
+    margin-bottom:24px;
+  }
+  .title h1 {
+    margin:0;
+    font-size: 34px;
+    letter-spacing: -.03em;
+  }
+  .title p {
+    margin:8px 0 0;
+    color:var(--muted);
+    font-size:15px;
+  }
+  .badge {
+    border:1px solid var(--line);
+    background:rgba(255,255,255,.04);
+    padding:10px 14px;
+    border-radius:14px;
+    color:#cbd5e1;
+    font-size:13px;
+  }
+  .grid {
+    display:grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap:18px;
+  }
+  .card {
+    background: var(--card);
+    backdrop-filter: blur(12px);
+    border:1px solid var(--line);
+    border-radius:24px;
+    padding:20px;
+    box-shadow: 0 20px 40px rgba(0,0,0,.18);
+  }
+  .kpi {
+    grid-column: span 3;
+    min-height: 128px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+  }
+  .kpi .label {
+    color:var(--muted);
+    font-size:13px;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+  }
+  .kpi .value {
+    font-size:38px;
+    font-weight:800;
+    letter-spacing:-.04em;
+  }
+  .kpi .sub {
+    color:#cbd5e1;
+    font-size:14px;
+  }
+  .wide {
+    grid-column: span 8;
+  }
+  .side {
+    grid-column: span 4;
+  }
+  .full {
+    grid-column: 1 / -1;
+  }
+  h2 {
+    margin:0 0 12px;
+    font-size:19px;
+  }
+  .hint {
+    color:var(--muted);
+    font-size:13px;
+    margin-bottom:16px;
+  }
+  svg {
+    width:100%;
+    height:auto;
+    display:block;
+  }
+  .svg-label {
+    fill:#dbe7f7;
+    font-size:14px;
+    font-weight:600;
+  }
+  .svg-value {
+    fill:#f8fafc;
+    font-size:13px;
+    font-weight:700;
+  }
+  .axis-label {
+    fill:#94a3b8;
+    font-size:12px;
+  }
+  table {
+    width:100%;
+    border-collapse:collapse;
+    font-size:14px;
+  }
+  th, td {
+    padding:12px 10px;
+    border-bottom:1px solid var(--line);
+  }
+  th {
+    text-align:left;
+    color:#cbd5e1;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+  }
+  td.num, th.num {
+    text-align:right;
+  }
+  tr:hover td {
+    background:rgba(255,255,255,.03);
+  }
+  .foot {
+    margin-top:18px;
+    color:var(--muted);
+    font-size:12px;
+  }
+  @media (max-width: 1100px) {
+    .kpi { grid-column: span 6; }
+    .wide, .side { grid-column: 1 / -1; }
+  }
+  @media (max-width: 700px) {
+    .wrap { padding:18px; }
+    .header { flex-direction:column; align-items:flex-start; }
+    .kpi { grid-column: 1 / -1; }
+    .title h1 { font-size:28px; }
+    .kpi .value { font-size:32px; }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="header">
+      <div class="title">
+        <h1>Dashboard de salidas por insecticida</h1>
+        <p>Resumen generado desde el archivo <strong>kd.xls</strong>. Se consideraron solo movimientos de <strong>Salida</strong> dentro de la clase <strong>Insecticidas</strong>.</p>
+      </div>
+      <div class="badge">Periodo analizado: 02/01/2026 al 31/01/2026</div>
+    </div>
+
+    <div class="grid">
+      <div class="card kpi">
+        <div class="label">Total de unidades salidas</div>
+        <div class="value">22,915</div>
+        <div class="sub">Suma total de todos los insecticidas despachados</div>
+      </div>
+
+      <div class="card kpi">
+        <div class="label">Insecticida con mayor salida</div>
+        <div class="value">7,466</div>
+        <div class="sub">MATATODO 360ML · 32.6%</div>
+      </div>
+
+      <div class="card kpi">
+        <div class="label">Número de insecticidas</div>
+        <div class="value">8</div>
+        <div class="sub">Productos distintos con movimiento de salida</div>
+      </div>
+
+      <div class="card kpi">
+        <div class="label">Promedio diario</div>
+        <div class="value">955</div>
+        <div class="sub">Promedio sobre 24 días con movimientos</div>
+      </div>
+
+      <div class="card wide">
+        <h2>Salidas acumuladas por producto</h2>
+        <div class="hint">Comparativo total por cada insecticida.</div>
+        <svg viewBox="0 0 900 477" role="img" aria-label="Gráfico de barras de salidas por insecticida">
+          <defs>
+            <linearGradient id="barGrad" x1="0%" x2="100%" y1="0%" y2="0%">
+              <stop offset="0%" stop-color="#22c55e"/>
+              <stop offset="100%" stop-color="#38bdf8"/>
+            </linearGradient>
+          </defs>
+          
+    <text x="342" y="49" text-anchor="end" class="svg-label">MATATODO 360ML</text>
+    <rect x="360" y="25" rx="12" ry="12" width="460" height="38" fill="rgba(255,255,255,.06)"></rect>
+    <rect x="360" y="25" rx="12" ry="12" width="460.0" height="38" fill="url(#barGrad)"></rect>
+    <text x="834.0" y="49" class="svg-value">7,466 (32.6%)</text>
+    
+
+    <text x="342" y="103" text-anchor="end" class="svg-label">MATA MOSCA 360ML</text>
+    <rect x="360" y="79" rx="12" ry="12" width="460" height="38" fill="rgba(255,255,255,.06)"></rect>
+    <rect x="360" y="79" rx="12" ry="12" width="392.6" height="38" fill="url(#barGrad)"></rect>
+    <text x="766.6" y="103" class="svg-value">6,372 (27.8%)</text>
+    
+
+    <text x="342" y="157" text-anchor="end" class="svg-label">MATA CUCARACHA 360ML</text>
+    <rect x="360" y="133" rx="12" ry="12" width="460" height="38" fill="rgba(255,255,255,.06)"></rect>
+    <rect x="360" y="133" rx="12" ry="12" width="190.4" height="38" fill="url(#barGrad)"></rect>
+    <text x="564.4" y="157" class="svg-value">3,091 (13.5%)</text>
+    
+
+    <text x="342" y="211" text-anchor="end" class="svg-label">MATA PULGAS 360ML</text>
+    <rect x="360" y="187" rx="12" ry="12" width="460" height="38" fill="rgba(255,255,255,.06)"></rect>
+    <rect x="360" y="187" rx="12" ry="12" width="123.9" height="38" fill="url(#barGrad)"></rect>
+    <text x="497.9" y="211" class="svg-value">2,011 (8.8%)</text>
+    
+
+    <text x="342" y="265" text-anchor="end" class="svg-label">MATA TERMITA 360ML</text>
+    <rect x="360" y="241" rx="12" ry="12" width="460" height="38" fill="rgba(255,255,255,.06)"></rect>
+    <rect x="360" y="241" rx="12" ry="12" width="120.0" height="38" fill="url(#barGrad)"></rect>
+    <text x="494.0" y="265" class="svg-value">1,947 (8.5%)</text>
+    
+
+    <text x="342" y="319" text-anchor="end" class="svg-label">MATA ACAROS 360ML</text>
+    <rect x="360" y="295" rx="12" ry="12" width="460" height="38" fill="rgba(255,255,255,.06)"></rect>
+    <rect x="360" y="295" rx="12" ry="12" width="48.1" height="38" fill="url(#barGrad)"></rect>
+    <text x="422.1" y="319" class="svg-value">780 (3.4%)</text>
+    
+
+    <text x="342" y="373" text-anchor="end" class="svg-label">MATA ARAÑAS 360ML</text>
+    <rect x="360" y="349" rx="12" ry="12" width="460" height="38" fill="rgba(255,255,255,.06)"></rect>
+    <rect x="360" y="349" rx="12" ry="12" width="38.4" height="38" fill="url(#barGrad)"></rect>
+    <text x="412.4" y="373" class="svg-value">624 (2.7%)</text>
+    
+
+    <text x="342" y="427" text-anchor="end" class="svg-label">MATA POLILLA VERDE 360ML</text>
+    <rect x="360" y="403" rx="12" ry="12" width="460" height="38" fill="rgba(255,255,255,.06)"></rect>
+    <rect x="360" y="403" rx="12" ry="12" width="38.4" height="38" fill="url(#barGrad)"></rect>
+    <text x="412.4" y="427" class="svg-value">624 (2.7%)</text>
+    
+        </svg>
+      </div>
+
+      <div class="card side">
+        <h2>Lectura rápida</h2>
+        <div class="hint">Hallazgos principales del archivo.</div>
+        <div style="display:grid; gap:14px;">
+          <div style="padding:14px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.03);">
+            <div style="color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.08em;">Participación líder</div>
+            <div style="font-size:28px;font-weight:800;margin-top:6px;">32.6%</div>
+            <div style="color:#cbd5e1;font-size:14px;margin-top:4px;">MATATODO 360ML</div>
+          </div>
+          <div style="padding:14px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.03);">
+            <div style="color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.08em;">Segundo producto</div>
+            <div style="font-size:28px;font-weight:800;margin-top:6px;">6,372</div>
+            <div style="color:#cbd5e1;font-size:14px;margin-top:4px;">MATA MOSCA 360ML</div>
+          </div>
+          <div style="padding:14px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.03);">
+            <div style="color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.08em;">Menor salida</div>
+            <div style="font-size:28px;font-weight:800;margin-top:6px;">624</div>
+            <div style="color:#cbd5e1;font-size:14px;margin-top:4px;">MATA POLILLA VERDE 360ML</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card full">
+        <h2>Evolución diaria de salidas</h2>
+        <div class="hint">Total de unidades salidas por fecha.</div>
+        <svg viewBox="0 0 1000 280" role="img" aria-label="Tendencia diaria de salidas">
+          <defs>
+            <linearGradient id="lineFill" x1="0%" x2="0%" y1="0%" y2="100%">
+              <stop offset="0%" stop-color="rgba(56,189,248,.30)" />
+              <stop offset="100%" stop-color="rgba(56,189,248,0)" />
+            </linearGradient>
+          </defs>
+          <line x1="50" y1="240.0" x2="980" y2="240.0" stroke="rgba(255,255,255,.10)" />
+<text x="8" y="244.0" class="axis-label">0</text>
+<line x1="50" y1="185.0" x2="980" y2="185.0" stroke="rgba(255,255,255,.10)" />
+<text x="8" y="189.0" class="axis-label">617</text>
+<line x1="50" y1="130.0" x2="980" y2="130.0" stroke="rgba(255,255,255,.10)" />
+<text x="8" y="134.0" class="axis-label">1,235</text>
+<line x1="50" y1="75.0" x2="980" y2="75.0" stroke="rgba(255,255,255,.10)" />
+<text x="8" y="79.0" class="axis-label">1,852</text>
+<line x1="50" y1="20.0" x2="980" y2="20.0" stroke="rgba(255,255,255,.10)" />
+<text x="8" y="24.0" class="axis-label">2,470</text>
+          <polyline fill="none" stroke="#38bdf8" stroke-width="4" points="50.0,209.5 90.4,20.0 130.9,150.8 171.3,144.1 211.7,112.8 252.2,189.0 292.6,216.5 333.0,229.8 373.5,185.2 413.9,27.3 454.3,147.0 494.8,166.8 535.2,77.5 575.7,198.3 616.1,234.7 656.5,118.9 697.0,197.3 737.4,217.6 777.8,178.5 818.3,44.0 858.7,85.8 899.1,229.5 939.6,122.2 980.0,215.9" />
+          <text x="50.0" y="270" text-anchor="middle" class="axis-label">02/01</text>
+<text x="211.7" y="270" text-anchor="middle" class="axis-label">08/01</text>
+<text x="373.5" y="270" text-anchor="middle" class="axis-label">13/01</text>
+<text x="535.2" y="270" text-anchor="middle" class="axis-label">17/01</text>
+<text x="697.0" y="270" text-anchor="middle" class="axis-label">22/01</text>
+<text x="858.7" y="270" text-anchor="middle" class="axis-label">28/01</text>
+<text x="980.0" y="270" text-anchor="middle" class="axis-label">31/01</text>
+        </svg>
+      </div>
+
+      <div class="card full">
+        <h2>Detalle consolidado</h2>
+        <div class="hint">Cuánto salió por cada insecticida.</div>
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Insecticida</th>
+              <th class="num">Unidades salidas</th>
+              <th class="num">Participación</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+    <tr>
+      <td>1</td>
+      <td>MATATODO 360ML</td>
+      <td class="num">7,466</td>
+      <td class="num">32.6%</td>
+    </tr>
+    
+
+    <tr>
+      <td>2</td>
+      <td>MATA MOSCA 360ML</td>
+      <td class="num">6,372</td>
+      <td class="num">27.8%</td>
+    </tr>
+    
+
+    <tr>
+      <td>3</td>
+      <td>MATA CUCARACHA 360ML</td>
+      <td class="num">3,091</td>
+      <td class="num">13.5%</td>
+    </tr>
+    
+
+    <tr>
+      <td>4</td>
+      <td>MATA PULGAS 360ML</td>
+      <td class="num">2,011</td>
+      <td class="num">8.8%</td>
+    </tr>
+    
+
+    <tr>
+      <td>5</td>
+      <td>MATA TERMITA 360ML</td>
+      <td class="num">1,947</td>
+      <td class="num">8.5%</td>
+    </tr>
+    
+
+    <tr>
+      <td>6</td>
+      <td>MATA ACAROS 360ML</td>
+      <td class="num">780</td>
+      <td class="num">3.4%</td>
+    </tr>
+    
+
+    <tr>
+      <td>7</td>
+      <td>MATA ARAÑAS 360ML</td>
+      <td class="num">624</td>
+      <td class="num">2.7%</td>
+    </tr>
+    
+
+    <tr>
+      <td>8</td>
+      <td>MATA POLILLA VERDE 360ML</td>
+      <td class="num">624</td>
+      <td class="num">2.7%</td>
+    </tr>
+    
+          </tbody>
+        </table>
+        <div class="foot">Fuente: hoja “Sheet” del archivo kd.xls. Filtro aplicado: Clase = INSECTICIDAS y Movimiento = Salida.</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
